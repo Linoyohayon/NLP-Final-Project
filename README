@@ -67,6 +67,43 @@ When using this dataset please cite our ACL 2011 paper which
 introduces it. This paper also contains classification results which
 you may want to compare against.
 
+************************************************************************************
+
+Preprocessing:
+
+First, we split the data into a train (75%) set and a validation (25%) set. Each set includes negative and positive reviews that are combined by a random mix.
+Negative reviews get a '0' label, and positive reviews get a '1' label. The train set contains 28,126 files and the validation set contains 9,374 mixed files. 
+For the GRU network, we draw weights from a normal distribution (m=0, std=0.01).
+
+Embedding methods:
+
+The embedding vector of each word that enters the network is a length of 100, and the output is 50. 
+We ran the two methods on 10 epochs. For each method, we created a BCELoss network.
+    
+    1. Word to Vec - We continued to train this model with the list of words from all the reviews in the data set, 
+                     so we avoided a situation where we faced a world that has no vector embedding representation. 
+    2. Fast text - We re-created this embedding configuration based on the same list of words from all our reviews on the data set. 
+
+Results and Conclusions:
+
+To compare the 2 embedding methods and to examine the quality of the model, we used loss function and accuracy index.
+
+In terms of the loss func, it can be seen from the graph that the minimum loss value is obtained from embedding method 1 (Word2Vec). 
+As expected, the accuracy of the train set in the embedding method 1 (59.0912) is higher than the embedding method 2 (58.6219) based on the last epoch.
+Respectively, this can be seen for val set. The gaps are very small so they cannot be seen in the graph.
+In addition, in the case of overfitting, it can be seen from the 2 graphs that the accuracy of both train set and val set is increasing
+and therefore it can not be said that there is overfitting. 
+However, due to long run times, we had to run the model for only 10 epochs, so it can be assumed that we did not drain the learning process of the model,
+and we can continue to train it to get better results.
+We also noticed in the graphs that there is a rapid convergence of the data (already starting from the second restraint). 
+First, we can assume that over more epochs there will be more changes. Second, we can assume that the cause is a coincidence in the run. 
+To make sure this is not a coincidence in the run, we ran the training on smaller samples as well. 
+The first sample contained 100 samples on train set and 100 samples on val set. 
+The second sample contained 4500 samples on train set and 1500 samples on val set (to maintain the ratio of 75% and 25%). 
+From this test, it can be seen that as the number of samples increases the convergence is faster, 
+and therefore we conclude that the graphs on the whole data are not random. The graphs of the tests are in the code file.
+
+************************************************************************************
 
 @InProceedings{maas-EtAl:2011:ACL-HLT2011,
   author    = {Maas, Andrew L.  and  Daly, Raymond E.  and  Pham, Peter T.  and  Huang, Dan  and  Ng, Andrew Y.  and  Potts, Christopher},
